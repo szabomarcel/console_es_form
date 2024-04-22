@@ -17,14 +17,20 @@ namespace console_dolgozo_vizsgaszeru
             await Dolgozokat();
             await Reszleg(dolgozok);
             await KiirDolgoszokRezlegei(dolgozok);
+            await magaskeresetu(dolgozok);
             Console.WriteLine("Program vége");
             Console.ReadKey();
+        }
+
+        private static async Task magaskeresetu(List<Dolgozok> dolgozok)
+        {
+            Console.WriteLine($"Dolgozók száma: {dolgozok.Count}");
         }
 
         private static async Task KiirDolgoszokRezlegei(List<Dolgozok> dolgozok)
         {
             var asztalosmuhelyDolgozoi = dolgozok.Where(d => d.Reszleg == "Asztalosműhely").Select(d => d.Nev);
-            Console.WriteLine("Asztalosműhely dolgozói:");
+            Console.WriteLine($"Asztalosműhely dolgozói:");
             foreach (var nev in asztalosmuhelyDolgozoi)
             {
                 Console.WriteLine(nev);
@@ -57,7 +63,7 @@ namespace console_dolgozo_vizsgaszeru
                     maxKeresetu = nev;
                 }
             }
-            Console.WriteLine($"A legbagyobb nev: {maxKeresetu.Nev} ({maxKeresetu.Ber})");
+            Console.WriteLine($"A legnagyobb nev: {maxKeresetu.Nev} ({maxKeresetu.Ber})");
             Console.WriteLine(await response.Content.ReadAsStringAsync());
         }
     }
