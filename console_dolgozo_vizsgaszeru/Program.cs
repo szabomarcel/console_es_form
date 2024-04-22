@@ -16,8 +16,19 @@ namespace console_dolgozo_vizsgaszeru
             List<Dolgozok> dolgozok = new List<Dolgozok> {};
             await Dolgozokat();
             await Reszleg(dolgozok);
+            await KiirDolgoszokRezlegei(dolgozok);
             Console.WriteLine("Program vége");
             Console.ReadKey();
+        }
+
+        private static async Task KiirDolgoszokRezlegei(List<Dolgozok> dolgozok)
+        {
+            var asztalosmuhelyDolgozoi = dolgozok.Where(d => d.Reszleg == "Asztalosműhely").Select(d => d.Nev);
+            Console.WriteLine("Asztalosműhely dolgozói:");
+            foreach (var nev in asztalosmuhelyDolgozoi)
+            {
+                Console.WriteLine(nev);
+            }
         }
 
         private static async Task Reszleg(List<Dolgozok> dolgozok)
@@ -33,7 +44,7 @@ namespace console_dolgozo_vizsgaszeru
         private static async Task Dolgozokat()
         {
             var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/_levesek_vizsgaszeru_/backendleves/index.php?leves");
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/_dolgozok_vizsgaszeru_/backenddolgozok/index.php?dolgozok");
             var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
             string responseContent = await response.Content.ReadAsStringAsync();
